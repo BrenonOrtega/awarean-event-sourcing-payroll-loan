@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5EA49AAF-1C17-4BFA-9D77-8723432BEEAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Awarean.EventSourcing.PayrollLoans.Api", "src\Awarean.EventSourcing.PayrollLoans.Api\Awarean.EventSourcing.PayrollLoans.Api.csproj", "{7A15B6B0-6FBA-4256-8C4A-E633A1FBAF44}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4995C947-A3A8-49A7-B1E1-0E43D3A6FB7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Awarean.EventSourcing.PayrollLoans.Api.UnitTests", "tests\Awarean.EventSourcing.PayrollLoans.Api.UnitTests\Awarean.EventSourcing.PayrollLoans.Api.UnitTests.csproj", "{49C2A248-40DB-4729-A425-3136A5FF362E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Awarean.EventSourcing.PayrollLoans.Api.IntegrationTests", "tests\Awarean.EventSourcing.PayrollLoans.Api.IntegrationTests\Awarean.EventSourcing.PayrollLoans.Api.IntegrationTests.csproj", "{60014792-BD6A-42F9-B4DD-FA45A23C9D92}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A15B6B0-6FBA-4256-8C4A-E633A1FBAF44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A15B6B0-6FBA-4256-8C4A-E633A1FBAF44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A15B6B0-6FBA-4256-8C4A-E633A1FBAF44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A15B6B0-6FBA-4256-8C4A-E633A1FBAF44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49C2A248-40DB-4729-A425-3136A5FF362E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49C2A248-40DB-4729-A425-3136A5FF362E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49C2A248-40DB-4729-A425-3136A5FF362E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49C2A248-40DB-4729-A425-3136A5FF362E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60014792-BD6A-42F9-B4DD-FA45A23C9D92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60014792-BD6A-42F9-B4DD-FA45A23C9D92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60014792-BD6A-42F9-B4DD-FA45A23C9D92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60014792-BD6A-42F9-B4DD-FA45A23C9D92}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7A15B6B0-6FBA-4256-8C4A-E633A1FBAF44} = {5EA49AAF-1C17-4BFA-9D77-8723432BEEAB}
+		{49C2A248-40DB-4729-A425-3136A5FF362E} = {4995C947-A3A8-49A7-B1E1-0E43D3A6FB7F}
+		{60014792-BD6A-42F9-B4DD-FA45A23C9D92} = {4995C947-A3A8-49A7-B1E1-0E43D3A6FB7F}
+	EndGlobalSection
+EndGlobal
