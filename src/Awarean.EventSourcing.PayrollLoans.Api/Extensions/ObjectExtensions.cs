@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Awarean.EventSourcing.PayrollLoans.Api.Extensions;
 public static class ObjectExtensions
 {
-    public static string AsJson(this object obj) => JsonSerializer.Serialize(obj, _options);
+    public static string AsJson(this object obj) => JsonSerializer.Serialize(obj);
     public static T FromJson<T>(this string @string)
     {
         if(string.IsNullOrEmpty(@string) || string.IsNullOrWhiteSpace(@string))
@@ -19,6 +19,7 @@ public static class ObjectExtensions
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         PropertyNameCaseInsensitive = true,
-        AllowTrailingCommas = true,
+        AllowTrailingCommas = false,
+        ReferenceHandler = ReferenceHandler.IgnoreCycles, 
     };
 }

@@ -23,7 +23,7 @@ public static class ServiceCollectionExtensions
     {
         var connectionString = configuration.GetConnectionString(nameof(Npgsql));
         services.AddTransient<IDbConnection>(_ => new NpgsqlConnection(connectionString));
-        services.AddScoped<IConnectionFactory, ConnectionFactory>();
+        services.AddTransient<IConnectionFactory, ConnectionFactory>();
 
         return services;
     }

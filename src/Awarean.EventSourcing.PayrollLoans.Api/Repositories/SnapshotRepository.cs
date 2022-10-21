@@ -13,44 +13,37 @@ internal class SnapshotRepository<TId, TEntity> : ISnapshotRepository<TId, TEnti
     private readonly SnapshotOptions _Sql;
     private readonly string _tableName;
 
-    public SnapshotRepository(IConnectionFactory factory, IOptions<SnapshotOptions> Sql) 
+    public SnapshotRepository(IConnectionFactory factory, IOptions<SnapshotOptions> Sql)
     {
         _factory = factory ?? throw new ArgumentNullException(nameof(factory));
         _Sql = Sql?.Value ?? throw new ArgumentNullException(nameof(Sql));
         _tableName = typeof(TEntity).GetTableName();
     }
 
-    public Task<IEnumerable<TEntity>> GetAllAsync(int index, int pageSize)
+    public async Task<IEnumerable<TEntity>> GetAllAsync(int index, int pageSize)
     {
         var sql = _Sql.GetAll;
         var offset = (index <= 0 ? 1 : index) * pageSize;
 
-        var parameters = NewDynamicParams();
+        var parameters = new DynamicParameters();
         parameters.Add(sql.Parameters[nameof(offset)], offset);
         parameters.Add(sql.Parameters[nameof(pageSize)], pageSize);
 
         using var conn = _factory.GetPersistence();
 
-        return conn.QueryAsync<TEntity>(sql.Query,
-            new {@OFFSET = offset, @FETCH = pageSize });
+        var result = await conn.QueryAsync<TEntity>(sql.QueryTable(_tableName), parameters);
+        return result;
     }
 
     public async Task<TEntity> GetByIdAsync(TId id)
     {
         var sql = _Sql.GetById ?? throw new ArgumentNullException(nameof(_Sql.GetById));
         using var conn = _factory.GetPersistence();
-        DynamicParameters parameters = NewDynamicParams();
+        DynamicParameters parameters = new DynamicParameters();
         parameters.Add(sql.Parameters[nameof(id)], id);
 
-        var queryResult = await conn.QuerySingleOrDefaultAsync<TEntity>(sql .Query, parameters);
+        var queryResult = await conn.QuerySingleOrDefaultAsync<TEntity>(sql.QueryTable(_tableName), parameters);
 
         return queryResult ?? typeof(TEntity).GetField("Empty").GetValue(null) as TEntity;
-    }
-
-    private DynamicParameters NewDynamicParams()
-    {
-        var parameters = new DynamicParameters();
-        parameters.Add("@TABLE", _tableName);
-        return parameters;
     }
 }

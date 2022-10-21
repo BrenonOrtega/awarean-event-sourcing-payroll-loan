@@ -50,7 +50,7 @@ public class PayrollLoanService : IPayrollLoanService
     {
         var loan = await _snapshot.GetByIdAsync(command.Id);
 
-        if (loan is not null || loan == PayrollLoan.Empty)
+        if (loan != PayrollLoan.Empty)
             return Result.Fail("LOAN_EXISTS", "There is already a loan with given Id, please try again with another id");
 
         var newLoanResult = PayrollLoan.Create(command);

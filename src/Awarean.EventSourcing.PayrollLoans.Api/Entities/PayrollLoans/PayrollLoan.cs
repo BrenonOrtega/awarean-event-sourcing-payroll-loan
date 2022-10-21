@@ -41,7 +41,8 @@ public class PayrollLoan
             Amount = command.Amount,
             InterestRate = command.InterestRate,
             CreatedAt = command.CreatedAt,
-            UpdatedAt = command.CreatedAt
+            UpdatedAt = command.CreatedAt,
+            Id = command.Id != Guid.Empty ? command.Id : Guid.NewGuid()
         };
 
         loan.UpgradeVersion();
