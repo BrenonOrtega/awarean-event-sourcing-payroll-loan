@@ -26,4 +26,5 @@ public class CreatedLoanEvent : PayrollLoanEvent
     public decimal FinalAmount { get; init; }
     public decimal Amount { get; init; }
     public int InstallmentNumber { get; init; }
+    public override string EventType => GetType().FullName;
 }

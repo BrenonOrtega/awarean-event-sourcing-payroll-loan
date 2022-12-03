@@ -1,6 +1,8 @@
 using Awarean.Sdk.Result;
 using static Awarean.Sdk.Result.Error;
 
+namespace Awarean.EventSourcing.PayrollLoans.Api;
+
 public static class KnownErrors
 {
     public static readonly Error NullCommand = Create("NULL_COMMAND", "Received command is null");

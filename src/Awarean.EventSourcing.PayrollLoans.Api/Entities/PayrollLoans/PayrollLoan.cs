@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Text.Json;
 using Awarean.EventSourcing.PayrollLoans.Api.Attributes;
 using Awarean.EventSourcing.PayrollLoans.Api.Entities.Base;
 using Awarean.EventSourcing.PayrollLoans.Api.Entities.PayrollLoans.Commands;
@@ -8,6 +9,7 @@ using Awarean.Sdk.Result;
 namespace Awarean.EventSourcing.PayrollLoans.Api.Entities;
 
 [TableName("payroll_loans")]
+[EventTable("payroll_loans_events")]
 public class PayrollLoan
 {
     private List<Event<Guid, PayrollLoan>> _events = new();
@@ -109,6 +111,17 @@ public class PayrollLoan
     {
         _events.Add(@event);
         _canUpgradeVersion = true;
+    }
+
+    public static PayrollLoan Build(IEnumerable<Event<Guid, PayrollLoan>> events)
+    {
+        var loan = new PayrollLoan();
+        var dynamics = events.Select(x => JsonSerializer.Deserialize(x.SerializedEvent, Type.GetType(x.EventType))as dynamic);
+
+        foreach (var @event in dynamics)
+            ((dynamic)loan).Apply(@event);
+
+        return loan;
     }
 
     public static readonly PayrollLoan Empty = new PayrollLoan()

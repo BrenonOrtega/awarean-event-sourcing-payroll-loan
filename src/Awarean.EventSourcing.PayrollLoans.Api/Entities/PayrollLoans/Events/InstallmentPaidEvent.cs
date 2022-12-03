@@ -16,4 +16,6 @@ public class InstallmentPaidEvent : PayrollLoanEvent
 
     public decimal PaidAmount { get; init; }
     public int PaidInstallments { get; init; }
+
+    public override string EventType => GetType().FullName;
 }

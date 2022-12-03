@@ -10,6 +10,6 @@ namespace Awarean.EventSourcing.PayrollLoans.Api.Entities.PayrollLoans.Events
     [TableName("payroll_loans_events")]
     public abstract class PayrollLoanEvent : Event<Guid, PayrollLoan>
     {
-        
+        public override abstract string EventType { get; }
     }
 }

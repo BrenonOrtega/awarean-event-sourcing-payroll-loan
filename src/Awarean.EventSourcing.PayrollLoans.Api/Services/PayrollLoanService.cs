@@ -31,14 +31,14 @@ public class PayrollLoanService : IPayrollLoanService
         {
             var obj = Activator.CreateInstance(
                 $"{nameof(Awarean)}.{nameof(EventSourcing)}.{nameof(PayrollLoans)}.{nameof(Api)}",
-                @event.Type,
+                @event.EventType,
                 @event.GetType()
                     .GetProperties()
                     .Select(x => x.GetValue(@event))
                     .ToArray()
             );
 
-            var instance = Convert.ChangeType(obj?.Unwrap(), Type.GetType(@event.Type));
+            var instance = Convert.ChangeType(obj?.Unwrap(), Type.GetType(@event.EntityType));
 
             loan.Apply(instance);
         }
@@ -69,15 +69,23 @@ public class PayrollLoanService : IPayrollLoanService
 
     public async Task<Result> PayInstallments(PayInstallmentCommand command)
     {
-        var loan = await _snapshot.GetByIdAsync(command.LoanId);
+        var result = await _eventStore.GetEvents<Guid, PayrollLoan>(command.LoanId);
 
-        if (loan is null || loan == PayrollLoan.Empty)
-            return Result.Fail("LOAN_DOES_NOT_EXISTS", "There is not a loan with given Id, please try again with an existing id");
+        if (result.IsFailed)
+            return Result.Fail("LOAN_DOES_NOT_EXISTS", 
+                "There is not a loan with given Id, please try again with an existing id");
+        
+        var events = result.Value;
+        if (events.Any(x => x.Version >= command.ExpectedVersion))
+            return Result.Fail("EXPECTED_VERSION_DUPLICATED",
+                "There is already an command taking place in this operatin, please verify if it's not duplicated.");    
 
-        var result = loan.Apply(command);
 
-        if (result.IsSuccess)
-            await _eventStore.CommitEvent(result.Value);
+        var loan = PayrollLoan.Build(events);
+        var paidResult = loan.Apply(command);
+
+        if (paidResult.IsSuccess)
+            await _eventStore.CommitEvent(paidResult.Value);
 
         return result;
     }
