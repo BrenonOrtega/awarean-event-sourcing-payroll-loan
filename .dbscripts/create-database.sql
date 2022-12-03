@@ -14,7 +14,8 @@ CREATE TABLE payroll_loans_events (
     Id SERIAL PRIMARY KEY,
     EntityId UUID NOT NULL,
     CreatedAt DATE NOT NULL,
-    Type Varchar(350) NOT NULL,
+    EntityType Varchar(350) NOT NULL,
+    EventType Varchar(350) NOT NULL,
     Version INT NOT NULL,
     SerializedEvent json not null,
     CONSTRAINT unique_payroll_loans_events_EntityId_version
