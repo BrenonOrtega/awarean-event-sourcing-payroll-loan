@@ -1,0 +1,48 @@
+version: '3.4'
+
+services:
+  awarean.eventsourcing.payrollloans.api:
+    build: 
+      dockerfile: src/Awarean.Eventsourcing.PayrollLoans.Api/Dockerfile
+      context: .
+    depends_on:
+      - db
+    ports:
+      - "5001:443"
+      - "5000:80"
+    networks:
+      - app-network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=app_password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+  db:
+    image: postgres:latest
+    ports: 
+      - "5432"
+    restart: always
+    networks:
+      - app-network
+    environment:
+      - POSTGRES_USER=app_user
+      - POSTGRES_PASSWORD=app_password
+      - POSTGRES_DB=appdb
+    volumes:
+      - ./.db:/var/lib/postgresql/data
+      - ./.dbscripts/create-database.sql:/docker-entrypoint-initdb.d/create_tables.sql
+   
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+    - app-network
+ 
+networks:
+  app-network:
+    driver: bridge
